@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import express, { Application, Request, Response, NextFunction } from "express";
 import httpStatus from "http-status";
+import globalErrorHandler from "./app/middlewares/globalErrorHandler";
+import notFound from "./app/middlewares/notFound";
 
 const app: Application = express();
 
@@ -16,5 +19,11 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
     message: "Welcome to Kickoff Node TS",
   });
 });
+
+//global error handler
+app.use(globalErrorHandler);
+
+//handle not found
+app.use(notFound);
 
 export default app;
