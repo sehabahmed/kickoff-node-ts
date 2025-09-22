@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorRequestHandler } from "express";
 import { TErrorSources } from "../interfaces/error.interface";
 import { ZodError } from "zod";
@@ -6,6 +7,7 @@ import handleValidationError from "../errors/handleValidationError";
 import handleCastError from "../errors/handleCastError";
 import handleDuplicateError from "../errors/handleDuplicateError";
 import AppError from "../errors/AppError";
+import config from "../config";
 
 const globalErrorHandler: ErrorRequestHandler = async (err, req, res, next) => {
   //setting default values
@@ -31,12 +33,12 @@ const globalErrorHandler: ErrorRequestHandler = async (err, req, res, next) => {
   } else if (err?.name === "CastError") {
     const simplifiedError = handleCastError(err);
     statusCode = simplifiedError?.statusCode;
-    message: simplifiedError?.message;
+    message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
   } else if (err?.code === 11000) {
     const simplifiedError = handleDuplicateError(err);
     statusCode = simplifiedError?.statusCode;
-    message: simplifiedError?.message;
+    message = simplifiedError?.message;
     errorSources = simplifiedError?.errorSources;
   } else if (err instanceof AppError) {
     statusCode = err?.statusCode;
@@ -63,6 +65,8 @@ const globalErrorHandler: ErrorRequestHandler = async (err, req, res, next) => {
     message,
     errorSources,
     err,
-    stack: 
-  })
+    stack: config.NODE_ENV === "development" ? err?.stack : null,
+  });
 };
+
+export default globalErrorHandler;
