@@ -5,11 +5,13 @@ import app from "./app";
 
 let server: Server;
 
+// Handle uncaught exceptions
 process.on("uncaughtException", (error) => {
   console.error("Uncaught Exception:", error);
   process.exit(1);
 });
 
+// Handle unhandled promise rejections
 process.on("unhandledRejection", (error) => {
   console.error("Unhandled Rejection:", error);
   if (server) {
@@ -20,41 +22,44 @@ process.on("unhandledRejection", (error) => {
   }
 });
 
+// Initialize database connection and start server
 async function main() {
   try {
     await mongoose.connect(config.db_url as string);
     console.log("🛢 Database connected successfully");
+    
     server = app.listen(config.port, () => {
       console.log(`🚀 Application is running on port ${config.port}`);
     });
   } catch (error) {
-    console.log("Failed to conncect to database:", error);
+    console.log("Failed to connect to database:", error);
     process.exit(1);
   }
 }
 
 main();
 
+// Graceful shutdown handlers
 process.on("SIGTERM", () => {
-  console.log("SIGTERM is received");
+  console.log("SIGTERM received - shutting down gracefully");
   if (server) {
     server.close(() => {
-      console.log("Server closed due to SIGTERM");
+      console.log("Server closed");
+      process.exit(0);
     });
-    process.exit(0);
   } else {
-    process.exit(1);
+    process.exit(0);
   }
 });
 
 process.on("SIGINT", () => {
-  console.log("SIGINT is received");
+  console.log("SIGINT received - shutting down gracefully");
   if (server) {
     server.close(() => {
-      console.log("Server closed due to SIGINT");
+      console.log("Server closed");
+      process.exit(0);
     });
-    process.exit(0);
   } else {
-    process.exit(1);
+    process.exit(0);
   }
 });
