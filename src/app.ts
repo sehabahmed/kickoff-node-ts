@@ -3,6 +3,7 @@ import express, { Application, Request, Response, NextFunction } from "express";
 import httpStatus from "http-status";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import notFound from "./app/middlewares/notFound";
+import router from "./app/routes";
 
 const app: Application = express();
 
@@ -10,7 +11,8 @@ const app: Application = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/v1", routes);
+//routes
+app.use("/api/v1", router);
 
 //Testing
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
