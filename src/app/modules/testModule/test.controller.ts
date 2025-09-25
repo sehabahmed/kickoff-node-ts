@@ -4,7 +4,7 @@ import { TestServices } from "./test.service";
 import httpStatus from "http-status";
 
 const createTest = catchAsync(async (req, res) => {
-  const item = TestServices.createTestIntoDB(req.body);
+  const item = await TestServices.createTestIntoDB(req.body);
 
   sendResponse(res, {
     success: true,
@@ -15,7 +15,7 @@ const createTest = catchAsync(async (req, res) => {
 });
 
 const getAllItems = catchAsync(async (req, res) => {
-  const items = TestServices.getAllTestsFromDB();
+  const items = await TestServices.getAllTestsFromDB();
 
   sendResponse(res, {
     success: true,
