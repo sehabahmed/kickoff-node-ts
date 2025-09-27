@@ -18,17 +18,18 @@ It helps you kickstart new backend projects with a clean and organized structure
 
 ## 🚀 Installation
 
-### Option 1: Clone from GitHub
+### Option 1: Install via npm
+```bash
+npm install kickoff-node-ts
+```
+
+### Option 2: Clone from GitHub
 ```bash
 git clone https://github.com/sehabahmed/kickoff-node-ts
 cd kickoff-node-ts
 npm install   # or yarn install
 ```
 
-### Option 2: Install via npm
-```bash
-npm install kickoff-node-ts
-```
 
 ## 🛠 Why use this toolkit?
 
