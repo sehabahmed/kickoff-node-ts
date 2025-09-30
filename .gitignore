@@ -1,6 +1,9 @@
 node_modules/
-dist
+dist/
 .env
+*.log
+.DS_Store
+coverage/
+.vscode/
+.idea/
 .vercel
-.npmignore
-bin/
